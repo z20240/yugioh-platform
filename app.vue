@@ -1,6 +1,6 @@
 <script lang="ts" scoped></script>
 <template>
-  <div>
+  <div class="app">
     <!-- <particles-bg type="lines" :bg="true" /> -->
 
     <NuxtLayout>
