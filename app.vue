@@ -1,5 +1,10 @@
+<script lang="ts" scoped></script>
 <template>
   <div>
-    <NuxtPage />
+    <!-- <particles-bg type="lines" :bg="true" /> -->
+
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
   </div>
 </template>

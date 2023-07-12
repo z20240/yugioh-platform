@@ -11,9 +11,11 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@types/node": "^18.16.19",
+    "@vant/nuxt": "^1.0.2",
     "nuxt": "^3.6.2"
   },
   "dependencies": {
-    "firebase": "^10.0.0"
+    "firebase": "^10.0.0",
+    "vant": "^4.6.2"
   }
 }
