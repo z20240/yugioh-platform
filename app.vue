@@ -8,3 +8,9 @@
     </NuxtLayout>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.app {
+  background-color: $default-background;
+}
+</style>

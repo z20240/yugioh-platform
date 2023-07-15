@@ -1,8 +1,17 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@vant/nuxt', '@pinia/nuxt'],
-  css: ['@/assets/scss/styles.scss', 'vant/lib/index.css', '@/assets/scss/iconfont.css'],
+  modules: ['@vant/nuxt', '@pinia/nuxt', '@nuxtjs/tailwindcss'],
+  css: ['vant/lib/index.css', '@/assets/scss/iconfont.css'],
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@use "@/assets/scss/styles.scss" as *;`,
+        },
+      },
+    },
+  },
   vant: {
     /** Options */
     lazyload: true,

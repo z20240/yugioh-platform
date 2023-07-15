@@ -17,8 +17,10 @@
     "sass-loader": "^13.3.2"
   },
   "dependencies": {
+    "@nuxtjs/tailwindcss": "^6.8.0",
     "@pinia/nuxt": "^0.4.11",
     "firebase": "^10.0.0",
+    "js-base64": "^3.7.5",
     "pinia": "^2.1.4",
     "vant": "^4.6.2"
   }
