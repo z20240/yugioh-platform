@@ -1,11 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@vant/nuxt'],
-  css: ['@/assets/scss/styles.scss'],
+  modules: ['@vant/nuxt', '@pinia/nuxt'],
+  css: ['@/assets/scss/styles.scss', 'vant/lib/index.css', '@/assets/scss/iconfont.css'],
   vant: {
     /** Options */
     lazyload: true,
+    importStyle: true,
   },
   runtimeConfig: {
     // Will be available in both server and client

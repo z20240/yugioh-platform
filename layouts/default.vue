@@ -1,11 +1,7 @@
-<script lang="ts" setup>
-const active = ref('home');
-</script>
+<script lang="ts" setup></script>
 
 <template>
   <div>
-    Layout: default
-    {{ active }}
     <slot />
     <van-tabbar route>
       <van-tabbar-item name="home" icon="home-o" to="/">主頁</van-tabbar-item>
