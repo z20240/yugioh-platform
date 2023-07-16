@@ -8,21 +8,19 @@ const { handleFilePreProcess, parseDeckFromYdke, deck, setDeck, handleShareSelec
 const deckCode = route.params.deckCode as string | undefined;
 if (deckCode) parseDeckFromYdke(deckCode);
 
-const OptionKey = {
-  uploadYDK: 'upload_ydk',
-  importFromUrl: 'import_from_url',
-  importFormMine: 'import_from_mine',
-};
+enum ImportMethodOptionKey {
+  uploadYDK = 'upload_ydk',
+  importFormMine = 'import_from_mine',
+}
 
-const dropDownMenu = ref([
-  { text: '從.ydk檔匯入', value: OptionKey.uploadYDK },
-  { text: '從牌組碼匯入', value: OptionKey.importFromUrl },
-  { text: '建立牌組', value: OptionKey.importFormMine },
+const importMethodOption = ref([
+  { text: '從.ydk檔匯入', value: ImportMethodOptionKey.uploadYDK },
+  { text: '建立牌組', value: ImportMethodOptionKey.importFormMine },
 ]);
 
-if (user) dropDownMenu.value.push({ text: '載入我的牌組', value: OptionKey.importFormMine });
+if (user) importMethodOption.value.push({ text: '載入我的牌組', value: ImportMethodOptionKey.importFormMine });
 
-const getDeckMethod = ref(OptionKey.uploadYDK);
+const getDeckMethod = ref(ImportMethodOptionKey.uploadYDK);
 const deckUrl = ref('');
 const showShare = ref(false);
 </script>
@@ -31,13 +29,13 @@ const showShare = ref(false);
   <van-nav-bar title="牌組" />
 
   <van-dropdown-menu active-color="#ee0a24">
-    <van-dropdown-item v-model="getDeckMethod" :options="dropDownMenu" @change="setDeck(null)" />
+    <van-dropdown-item v-model="getDeckMethod" :options="importMethodOption" @change="setDeck(null)" />
   </van-dropdown-menu>
 
   <van-grid v-if="!deck" :column-num="1" class="empty-panel">
     <van-grid-item>
       <van-uploader
-        v-if="getDeckMethod === OptionKey.uploadYDK"
+        v-if="getDeckMethod === ImportMethodOptionKey.uploadYDK"
         accept="ydk"
         max-size="2000000"
         max-count="1"
@@ -45,16 +43,8 @@ const showShare = ref(false);
         result-type="text"
         :before-read="handleFilePreProcess"
       >
-        <van-empty v-if="!deck" description="empty" />
+        <van-empty description="empty" />
       </van-uploader>
-      <van-grid v-else-if="getDeckMethod === OptionKey.importFromUrl" :column-num="1">
-        <van-grid-item>
-          <van-field label="牌組碼" placeholder="請輸入牌組碼" v-model="deckUrl" />
-        </van-grid-item>
-        <van-grid-item>
-          <van-button type="primary" size="small" plain @click="parseDeckFromYdke(deckUrl)"> 確定 </van-button>
-        </van-grid-item>
-      </van-grid>
     </van-grid-item>
   </van-grid>
 
@@ -106,8 +96,8 @@ const showShare = ref(false);
     :options="shareDeckOptions"
     @select="
       (option) => {
-        showShare = false;
         handleShareSelect(option);
+        showShare = false;
       }
     "
   />

@@ -43,7 +43,7 @@ export function parseURL(ydke: string): Deck {
   };
 }
 
-export function toURL(deck: Deck): string {
+export function toDeckCode(deck: Deck): string {
   return encode(
     nameToBase64(deck.name) +
       '!' +

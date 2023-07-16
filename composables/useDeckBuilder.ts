@@ -1,31 +1,39 @@
-import { Deck, deckStringToDeck, parseURL, toURL } from '@/utils';
+import { Deck, deckStringToDeck, parseURL, toDeckCode } from '@/utils';
 import { useDeckStore } from '@/stores/deck';
 
 enum ShareOptionKey {
-  CopyToUrl = 'copyToUrl',
+  ShareToUrl = 'ShareToUrl',
   SaveAsImage = 'saveAsImage',
   SaveAsPdf = 'saveAsPdf',
 }
+
 export const shareDeckOptions = [
-  { name: '複製牌組碼', icon: 'link', value: ShareOptionKey.CopyToUrl },
+  { name: '分享URL', icon: 'link', value: ShareOptionKey.ShareToUrl },
   { name: '存成圖片', icon: 'photo', value: ShareOptionKey.SaveAsImage },
   { name: '存成 pdf', icon: 'weapp-qrcode', value: ShareOptionKey.SaveAsPdf },
 ];
 
-const shareAction = {
-  [ShareOptionKey.CopyToUrl]: (deck: Deck) => {
-    const url = toURL(deck);
-    navigator.clipboard.writeText(url);
-    console.log('🚀 ~ file: useDeckBuilder.ts:14 ~ url:', url);
-    showSuccessToast('牌組碼複製成功! 已複製到剪貼簿');
-  },
-  [ShareOptionKey.SaveAsImage]: (deck: Deck) => {},
-  [ShareOptionKey.SaveAsPdf]: (deck: Deck) => {},
+const shareToUrl = (host: string) => (deck: Deck) => {
+  const deckCode = toDeckCode(deck);
+  const shareUrl = `${host}/deck/${deckCode}`;
+  navigator.clipboard.writeText(shareUrl);
+  showSuccessToast('URL 已複製到剪貼簿! 趕快分享給朋友吧!');
 };
 
+const saveAsPdf = (deck: Deck) => {};
+
+const saveAsImage = (deck: Deck) => {};
+
 export function useDeckBuilder() {
+  const url = useRequestURL();
   const { setDeck, getDeck } = useDeckStore();
   const deck = computed(() => getDeck());
+
+  const shareAction = {
+    [ShareOptionKey.ShareToUrl]: shareToUrl(url.host),
+    [ShareOptionKey.SaveAsImage]: saveAsImage,
+    [ShareOptionKey.SaveAsPdf]: saveAsPdf,
+  };
 
   const handleFilePreProcess = (file: any) => {
     if (!(file as File).name.includes('.ydk')) {
@@ -54,10 +62,7 @@ export function useDeckBuilder() {
     return deck;
   };
 
-  const handleShareSelect = (option: { name: string; icon: string; value: ShareOptionKey }) => {
-    console.log('🚀 ~ file: useDeckBuilder.ts:42 ~ handleShareSelect ~ option:', option);
-    shareAction[option.value](deck.value as Deck);
-  };
+  const handleShareSelect = (option: { name: string; icon: string; value: ShareOptionKey }) => shareAction[option.value](deck.value as Deck);
 
   return {
     deck,
