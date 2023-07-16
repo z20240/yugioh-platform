@@ -26,7 +26,7 @@ const saveAsImage = (deck: Deck) => {};
 
 export function useDeckBuilder() {
   const url = useRequestURL();
-  const { setDeck, getDeck } = useDeckStore();
+  const { setDeck, getDeck, clearDeck } = useDeckStore();
   const deck = computed(() => getDeck());
 
   const shareAction = {
@@ -67,6 +67,7 @@ export function useDeckBuilder() {
   return {
     deck,
     setDeck,
+    clearDeck,
     handleFilePreProcess,
     parseDeckFromYdke,
     handleShareSelect,

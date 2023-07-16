@@ -3,7 +3,7 @@ import { useUserStore } from '@/stores/user';
 import { useDeckBuilder, shareDeckOptions } from '@/composables/useDeckBuilder';
 const route = useRoute();
 const { user } = useUserStore();
-const { handleFilePreProcess, parseDeckFromYdke, deck, setDeck, handleShareSelect } = useDeckBuilder();
+const { handleFilePreProcess, parseDeckFromYdke, deck, clearDeck, handleShareSelect } = useDeckBuilder();
 
 const deckCode = route.params.deckCode as string | undefined;
 if (deckCode) parseDeckFromYdke(deckCode);
@@ -29,7 +29,7 @@ const showShare = ref(false);
   <van-nav-bar title="牌組" />
 
   <van-dropdown-menu active-color="#ee0a24">
-    <van-dropdown-item v-model="getDeckMethod" :options="importMethodOption" @change="setDeck(null)" />
+    <van-dropdown-item v-model="getDeckMethod" :options="importMethodOption" @change="clearDeck" />
   </van-dropdown-menu>
 
   <van-grid v-if="!deck" :column-num="1" class="empty-panel">

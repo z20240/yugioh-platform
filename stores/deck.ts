@@ -18,6 +18,11 @@ export const useDeckStore = defineStore(
       return deck.value || deckCookie.value;
     };
 
+    const clearDeck = () => {
+      deckCookie.value = null;
+      deck.value = null;
+    };
+
     const addToDecks = (deck: Deck) => {
       decksCookie.value = [...decksCookie.value, deck];
       decks.value = [...decks.value, deck];
@@ -45,6 +50,7 @@ export const useDeckStore = defineStore(
     return {
       getDeck,
       setDeck,
+      clearDeck,
       addToDecks,
       removeFromDecks,
       getDeckByName,
