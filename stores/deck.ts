@@ -6,29 +6,40 @@ export const useDeckStore = defineStore(
   () => {
     const deck = ref<Deck | null>();
     const decks = ref<Deck[]>([]);
+    const deckCookie = useCookie<Deck | null>('deck');
+    const decksCookie = useCookie<Deck[]>('decks');
 
     const setDeck = (newDeck: Deck | null) => {
+      deckCookie.value = newDeck;
       deck.value = newDeck;
     };
 
     const getDeck = () => {
-      return deck.value;
+      return deck.value || deckCookie.value;
     };
 
     const addToDecks = (deck: Deck) => {
-      decks.value.push(deck);
+      decksCookie.value = [...decksCookie.value, deck];
+      decks.value = [...decks.value, deck];
     };
 
     const removeFromDecks = (deck: Deck) => {
-      decks.value.splice(decks.value.indexOf(deck), 1);
+      decksCookie.value.splice(
+        decks.value.findIndex((d) => d.name === deck.name),
+        1
+      );
+      decks.value.splice(
+        decks.value.findIndex((d) => d.name === deck.name),
+        1
+      );
     };
 
     const getDeckByName = (name: string) => {
-      return decks.value.find((deck) => deck.name === name);
+      return decks.value.find((deck) => deck.name === name) || decksCookie.value.find((deck) => deck.name === name);
     };
 
     const getDecks = () => {
-      return decks.value;
+      return decks.value.length ? decks.value : decksCookie.value;
     };
 
     return {
@@ -40,5 +51,7 @@ export const useDeckStore = defineStore(
       getDecks,
     };
   },
-  { persist: true }
+  {
+    persist: true,
+  }
 );
